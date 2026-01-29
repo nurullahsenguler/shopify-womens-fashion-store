@@ -1,0 +1,220 @@
+<style>
+  /* =========================
+     BEST SELLERS
+     SALES / TRUST
+     ========================= */
+
+  .best-sellers {
+    padding: 140px 32px;
+    background: #faf7f4;
+  }
+
+  .bs-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .bs-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .bs-header h2 {
+    font-size: 42px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 14px;
+  }
+
+  .bs-header p {
+    font-size: 16px;
+    opacity: 0.65;
+  }
+
+  /* GRID */
+  .bs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+
+  /* CARD */
+  .bs-item {
+    text-decoration: none;
+    color: #000;
+    transform: translateY(60px);
+    opacity: 0;
+    transition: all 0.8s ease;
+  }
+
+  .bs-item.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* IMAGE */
+  .bs-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 26px;
+  }
+
+  .bs-image img {
+    width: 100%;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+
+  /* BADGE */
+  .bs-badge {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: #f36a2d;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  /* HOVER */
+  .bs-item:hover img {
+    transform: scale(1.1);
+  }
+
+  /* INFO */
+  .bs-info {
+    margin-top: 22px;
+    text-align: center;
+  }
+
+  .bs-info h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .bs-info span {
+    font-size: 14px;
+    opacity: 0.65;
+  }
+
+  /* =========================
+     BEST SELLERS RESPONSIVE
+     ========================= */
+  @media screen and (max-width: 990px) {
+    .best-sellers {
+      padding: 80px 20px; /* Dikey boşluk optimize edildi */
+    }
+
+    .bs-header {
+      margin-bottom: 50px;
+    }
+
+    .bs-header h2 {
+      font-size: 32px; /* Başlık mobilde dengelendi */
+    }
+
+    .bs-grid {
+      /* Mobilde ürünlerin görkemini korumak için tekli veya ikili grid.
+         Burada 1fr yapıyorum ki moda dergisi gibi büyük büyük görünsünler. */
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .bs-item {
+      transform: translateY(40px); /* Mobilde giriş mesafesini kısalttık */
+    }
+
+    .bs-image {
+      border-radius: 20px; /* Mobilde biraz daha yumuşak köşeler */
+    }
+
+    .bs-badge {
+      font-size: 11px; /* Badge mobilde biraz daha zarif kalsın */
+      padding: 4px 12px;
+      top: 14px;
+      left: 14px;
+    }
+
+    .bs-info h3 {
+      font-size: 17px; /* Ürün ismi mobilde hafif büyütüldü */
+    }
+  }
+
+  /* Çok küçük telefonlarda yan boşlukları iyice optimize edelim */
+  @media screen and (max-width: 480px) {
+    .best-sellers {
+      padding: 60px 16px;
+    }
+  }
+</style>
+
+<section class="best-sellers" id="bestSellers">
+  <div class="bs-container">
+    <div class="bs-header">
+      <h2>Best Sellers</h2>
+      <p>Most loved pieces chosen by our customers</p>
+    </div>
+
+    <div class="bs-grid">
+      {% assign collection = collections[section.settings.collection] %}
+
+      {% for product in collection.products limit: 3 %}
+        <a href="{{ product.url }}" class="bs-item">
+          <div class="bs-image">
+            <span class="bs-badge">Best Seller</span>
+            <img
+              src="{{ product.featured_image | image_url: width: 900 }}"
+              alt="{{ product.title }}"
+            >
+          </div>
+
+          <div class="bs-info">
+            <h3>{{ product.title }}</h3>
+            <span>{{ product.price | money }}</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const items = document.querySelectorAll('.bs-item');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    items.forEach((item) => observer.observe(item));
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Best Sellers",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Best Sellers"
+    }
+  ]
+}
+{% endschema %}

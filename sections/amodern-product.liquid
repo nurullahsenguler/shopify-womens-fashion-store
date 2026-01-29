@@ -1,0 +1,969 @@
+{% comment %}
+  MODERN ORANGE PRODUCT PAGE – FINAL
+{% endcomment %}
+
+<style>
+                              :root {
+                                --orange: #ffa800;
+                                --orange-dark: #ff8a00;
+                                --accent: #ff6a3d;
+                                --white: #fff;
+                                --black: #111;
+                                --radius: 18px;
+                              }
+
+                              body {
+                                background: var(--orange);
+                              }
+
+                              /* =====================
+                                 WRAPPER
+                              ===================== */
+                              .product-wrapper {
+                                margin-top: 80px !important;
+                                max-width: 1200px;
+                                margin: 600px auto 140px;
+                                padding: 20px;
+                                font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+                              }
+
+                              /* =====================
+                                 TOP
+                              ===================== */
+                              .product-top {
+                                display: flex;
+                                gap: 40px;
+                              }
+
+                              /* =====================
+                                 GALLERY
+                              ===================== */
+                              /* =====================
+       TOP GALLERY SLIDER
+    ===================== */
+
+    .main-image-wrapper {
+      position: relative;
+    }
+
+    /* OKLAR */
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.55);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 22px;
+      user-select: none;
+      transition: .3s;
+      z-index: 3;
+    }
+
+    .gallery-arrow:hover {
+      background: rgba(0,0,0,.85);
+    }
+
+    .gallery-arrow.left { left: 14px; }
+    .gallery-arrow.right { right: 14px; }
+
+    /* THUMBNAILS */
+    .thumbnails {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr); /* 🔥 7 ADET */
+      gap: 10px;
+      margin-top: 14px;
+      overflow: hidden;
+    }
+
+
+                              .product-gallery {
+                                width: 55%;
+                              }
+
+                              .main-image-wrapper {
+                                border-radius: 26px;
+                                overflow: hidden;
+                              }
+
+                              .main-image {
+                                width: 100%;
+                                transition: transform .6s ease;
+                              }
+
+                              .main-image-wrapper:hover img {
+                                transform: scale(1.08);
+                              }
+
+                              .thumbnails {
+                                display: flex;
+                                gap: 10px;
+                                margin-top: 14px;
+                              }
+
+                              .thumbnail {
+                                width: 80px;
+                                height: 80px;
+                                border-radius: 14px;
+                                object-fit: cover;
+                                cursor: pointer;
+                                opacity: .6;
+                                border: 2px solid transparent;
+                                transition: .3s;
+                              }
+
+                              .thumbnail.active {
+                                opacity: 1;
+                                border-color: var(--black);
+                              }
+
+                              /* =====================
+                                 INFO CARD
+                              ===================== */
+                              .product-info {
+                                width: 45%;
+                                background: var(--orange-dark);
+                                border-radius: 30px;
+                                padding: 30px;
+                                color: var(--white);
+                                position: sticky;
+                                top: 80px;
+                              }
+
+                              .product-info h1 {
+                                font-size: 28px;
+                                line-height: 1.2;
+                                margin-bottom: 10px;
+                              }
+
+                              .price {
+                                font-size: 32px;
+                                font-weight: 800;
+                                margin-bottom: 12px;
+                              }
+
+                              /* =====================
+                                 SHIPPING / TRUST
+                              ===================== */
+                              .trust {
+                                display: flex;
+                                gap: 16px;
+                                font-size: 14px;
+                                margin-bottom: 24px;
+                                opacity: .95;
+                              }
+
+                              /* =====================
+                                 VARIANTS
+                              ===================== */
+                              .variant-group {
+                                margin-bottom: 22px;
+                              }
+
+                              .variant-group label {
+                                display: block;
+                                margin-bottom: 10px;
+                                font-weight: 600;
+                              }
+
+                              .variant-options {
+                                display: flex;
+                                gap: 10px;
+                                flex-wrap: wrap;
+                              }
+
+                              .variant-btn {
+                                padding: 10px 18px;
+                                border-radius: 999px;
+                                background: var(--white);
+                                color: var(--orange-dark);
+                                font-weight: 700;
+                                cursor: pointer;
+                                transition: .3s;
+                                cursor: pointer;
+                              }
+
+                              .variant-btn.active {
+                                background: var(--accent);
+                                color: var(--white);
+                              }
+
+                              /* =====================
+                                 QTY
+                              ===================== */
+                              .quantity {
+                                display: flex;
+                                align-items: center;
+                                gap: 14px;
+                                margin-bottom: 22px;
+                              }
+
+                              .qty-btn {
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%;
+                                background: var(--white);
+                                color: var(--orange-dark);
+                                font-size: 22px;
+                                border: none;
+                                cursor: pointer;
+                              }
+
+                              .qty-input {
+                                width: 50px;
+                                background: transparent;
+                                border: none;
+                                color: var(--white);
+                                font-size: 18px;
+                                text-align: center;
+                              }
+
+                              /* =====================
+                                 BUTTONS
+                              ===================== */
+                              .add-to-cart {
+                                width: 100%;
+                                padding: 16px;
+                                background: var(--accent);
+                                border: none;
+                                border-radius: var(--radius);
+                                color: var(--white);
+                                font-size: 18px;
+                                font-weight: 800;
+                                cursor: pointer;
+                              }
+
+                              .buy-now {
+                                margin-top: 14px;
+                                width: 100%;
+                                padding: 16px;
+                                background: var(--white);
+                                border: none;
+                                border-radius: var(--radius);
+                                color: var(--orange-dark);
+                                font-size: 18px;
+                                font-weight: 800;
+                                cursor: pointer;
+                              }
+
+                              /* =====================
+           DESCRIPTION – FINAL FIX
+        ===================== */
+
+  /* GENEL AÇIKLAMA YAZILARI */
+  .product-description .rte,
+  .product-description .rte p,
+  .product-description .rte span,
+  .product-description .rte div {
+    color: #ffffff !important;
+    text-align: left !important;
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+  }
+
+  /* OTOMATİK OLUŞTURDUĞUMUZ BAŞLIKLAR */
+  .product-description .auto-title {
+    display: block !important;
+    text-align: center !important; /* TAM ORTALA */
+    color: #ffffff !important;
+    font-size: 32px !important; /* BÜYÜK YAP */
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 80px auto 40px !important;
+    width: fit-content;
+    position: relative;
+  }
+
+  /* BAŞLIĞIN ALTINDAKİ ÇİZGİ */
+  .product-description .auto-title::after {
+    content: "";
+    display: block;
+    width: 100px; /* Çizgi boyu */
+    height: 3px;  /* Çizgi kalınlığı */
+    background: #ffffff;
+    margin: 15px auto 0;
+    border-radius: 2px;
+  }
+
+  /* CJ'den bazen gelen ekstra kalın yazıları (bold) temizleyelim */
+  .product-description .rte strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+        /* Description alanını aşağı al */
+        .product-description {
+          margin-top: 120px; /* BURAYI İSTERSEN 80 / 100 YAP */
+        }
+
+        /* GENEL YAZILAR → SOLDA + BEYAZ */
+        .product-description .rte p,
+        .product-description .rte span,
+        .product-description .rte li {
+          color: #ffffff;
+          font-size: 17px;
+          line-height: 1.7;
+          text-align: left;   /* NET SOL */
+        }
+
+        /* BAŞLIKLAR → ORTADA + BÜYÜK */
+        .product-description .rte h1,
+        .product-description .rte h2,
+        .product-description .rte h3 {
+          color: #ffffff;
+          text-align: center !important; /* SHOPIFY EZİLDİ */
+          font-size: 30px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          margin: 70px auto 30px;
+          font-weight: 700;
+        }
+
+        /* ALT ÇİZGİ */
+        .product-description .rte h1::after,
+        .product-description .rte h2::after,
+        .product-description .rte h3::after {
+          content: "";
+          display: block;
+          width: 70px;
+          height: 2px;
+          background: rgba(255,255,255,0.6);
+          margin: 16px auto 0;
+        }
+
+
+                      /* =====================
+                         DESCRIPTION IMAGE SLIDER (FINAL)
+                      ===================== */
+
+                      .desc-slider {
+                        grid-column: 1 / -1;
+                        margin-top: 60px;
+                        max-width: 720px;          /* ANA GÖRSEL KÜÇÜLDÜ */
+                        margin-left: auto;
+                        margin-right: auto;
+                      }
+
+                      .desc-main-wrapper {
+                        position: relative;
+                      }
+
+                      .desc-main-img {
+                        width: 100%;
+                        aspect-ratio: 1 / 1;
+                        object-fit: cover;
+                        border-radius: 20px;
+                        margin-bottom: 18px;
+                      }
+
+                      /* OKLAR */
+                      .desc-arrow {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 44px;
+                        height: 44px;
+                        border-radius: 50%;
+                        background: rgba(0,0,0,.55);
+                        color: #fff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        font-size: 22px;
+                        user-select: none;
+                        transition: .3s;
+                      }
+
+                      .desc-arrow:hover {
+                        background: rgba(0,0,0,.85);
+                      }
+
+                      .desc-arrow.left { left: 12px; }
+                      .desc-arrow.right { right: 12px; }
+
+                      /* THUMBNAILS */
+                      .desc-thumbs {
+                        display: grid;
+                        grid-template-columns: repeat(4, 1fr);
+                        gap: 14px;
+                        overflow: hidden;
+                      }
+
+                      .desc-thumb {
+                        width: 100%;
+                        aspect-ratio: 1 / 1;
+                        object-fit: cover;
+                        border-radius: 14px;
+                        cursor: pointer;
+                        opacity: .6;
+                        transition: .3s;
+                      }
+
+                      .desc-thumb.active,
+                      .desc-thumb:hover {
+                        opacity: 1;
+                        transform: scale(1.05);
+                        box-shadow: 0 8px 18px rgba(0,0,0,.25);
+                      }
+
+                      /* MOBILE */
+                      @media(max-width: 900px) {
+                        .desc-slider {
+                          max-width: 100%;
+                        }
+                      }
+
+
+
+                          /* MOBILE */
+                          @media(max-width: 900px) {
+                            .product-description {
+                              grid-template-columns: repeat(2, 1fr);
+                            }
+                          }
+
+                            /* MOBILE */
+                            @media(max-width: 900px) {
+                              .desc-images {
+                                grid-template-columns: repeat(2, 1fr);
+                              }
+                            }
+
+                              /* =====================
+                                 MOBILE STICKY BAR
+                              ===================== */
+                              .mobile-bar {
+                                display: none;
+                              }
+
+                              @media(max-width: 900px) {
+                                .product-top {
+                                  flex-direction: column;
+                                }
+
+                                .product-gallery,
+                                .product-info {
+                                  width: 100%;
+                                }
+
+                                .product-info {
+                                  position: static;
+                                }
+
+                                .mobile-bar {
+                                  display: flex;
+                                  position: fixed;
+                                  bottom: 0;
+                                  left: 0;
+                                  right: 0;
+                                  background: var(--orange-dark);
+                                  padding: 14px;
+                                  gap: 12px;
+                                  z-index: 999;
+                                }
+
+                                .mobile-bar button {
+                                  flex: 1;
+                                  padding: 14px;
+                                  border-radius: 14px;
+                                  font-size: 16px;
+                                  font-weight: 800;
+                                  border: none;
+                                }
+
+                                .mobile-cart {
+                                  background: var(--accent);
+                                  color: white;
+                                }
+
+                                .mobile-buy {
+                                  background: white;
+                                  color: var(--orange-dark);
+                                }
+                              }
+
+                              /* =====================
+                       DESC SLIDER ANIMATIONS
+                    ===================== */
+
+                    .desc-main-img {
+                      transition: opacity .35s ease, transform .45s ease;
+                    }
+
+                    .desc-main-img.fade-out {
+                      opacity: 0;
+                      transform: scale(.97);
+                    }
+
+                    .desc-main-img.fade-in {
+                      opacity: 1;
+                      transform: scale(1);
+                    }
+
+                    /* =====================
+                       THUMB PROGRESS
+                    ===================== */
+
+                    .desc-thumb {
+                      position: relative;
+                      overflow: hidden;
+                    }
+
+                    .desc-thumb::after {
+                      content: "";
+                      position: absolute;
+                      left: 0;
+                      bottom: 0;
+                      height: 3px;
+                      width: 0%;
+                      background: var(--accent);
+                      transition: width .35s ease;
+                    }
+
+                    .desc-thumb.active::after {
+                      width: 100%;
+                    }
+
+                    /* =====================
+                       DESCRIPTION SECTIONS
+                    ===================== */
+
+                    .product-description > h2,
+                    .product-description > h3 {
+                      margin-top: 70px;
+                      padding-top: 30px;
+                      border-top: 1px solid rgba(255,255,255,.25);
+                    }
+
+                    .product-description > h2:first-child,
+                    .product-description > h3:first-child {
+                      margin-top: 0;
+                      border-top: none;
+                    }
+
+                    /* =====================
+     FULL RESPONSIVE FIX
+  ===================== */
+  @media (max-width: 900px) {
+    .product-wrapper {
+      margin: 20px auto 100px; /* Alttaki bar için boşluk bıraktık */
+      padding: 10px;
+    }
+
+    .product-top {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .product-gallery, .product-info {
+      width: 100%;
+    }
+
+    /* Mobilde yan yana 7 thumbnail çok küçük kalır, 5 idealdir */
+    .thumbnails {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .product-info {
+      position: static;
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    .product-info h1 {
+      font-size: 24px;
+    }
+
+    /* Mobilde devasa başlıkları biraz küçültelim */
+    .product-description .auto-title {
+      font-size: 24px !important;
+      margin: 40px auto 20px !important;
+    }
+
+    /* Açıklama kısmındaki slider mobilde tam genişlik olsun */
+    .desc-slider {
+      max-width: 100%;
+      padding: 0 5px;
+    }
+
+    /* Alt barı görünür yapalım */
+    .mobile-bar {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      padding: 12px 20px;
+      gap: 10px;
+      z-index: 9999;
+      box-shadow: 0 -10px 20px rgba(0,0,0,0.1);
+      border-radius: 20px 20px 0 0;
+    }
+
+    .mobile-bar button {
+      flex: 1;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      border: none;
+    }
+
+    .mobile-cart { background: var(--black); color: white; }
+    .mobile-buy { background: var(--accent); color: white; }
+  }
+
+  /* Küçük telefonlar için (iPhone SE vs) */
+  @media (max-width: 480px) {
+    .price { font-size: 26px; }
+    .variant-btn { padding: 8px 14px; font-size: 13px; }
+  }
+</style>
+
+<div class="product-wrapper">
+  <div class="product-top">
+    <div class="product-gallery">
+      <div class="main-image-wrapper">
+        <div class="gallery-arrow left">‹</div>
+        <img id="mainImg" class="main-image" src="{{ product.featured_image | img_url: '1000x' }}">
+        <div class="gallery-arrow right">›</div>
+      </div>
+
+      <div class="thumbnails">
+        {% for image in product.images %}
+          <img
+            class="thumbnail {% if forloop.first %}active{% endif %}"
+            src="{{ image | img_url: '200x' }}"
+            data-image="{{ image | img_url: '1000x' }}"
+          >
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="mobile-bar">
+      <button type="button" class="mobile-cart" onclick="document.querySelector('.add-to-cart').click()">
+        Sepete Ekle
+      </button>
+      <button type="button" class="mobile-buy" onclick="buyNow()">Hemen Al</button>
+    </div>
+
+    <div class="product-info">
+      <h1>{{ product.title }}</h1>
+      <div id="price" class="price">{{ product.price | money }}</div>
+
+      <div class="trust">
+        <div>🚚 Free Shipping</div>
+        <div>🔒 Secure Checkout</div>
+        <div>⭐ 4.8/5 Reviews</div>
+      </div>
+
+      <form id="productForm">
+        <input type="hidden" name="id" id="variantId" value="{{ product.selected_or_first_available_variant.id }}">
+        <input type="hidden" name="quantity" id="qtyHidden" value="1">
+
+        {% for option in product.options_with_values %}
+          <div class="variant-group" data-option="{{ option.position }}">
+            <label>{{ option.name }}</label>
+            <div class="variant-options">
+              {% for value in option.values %}
+                <div class="variant-btn" data-value="{{ value }}">{{ value }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+
+        <div class="quantity">
+          <button type="button" class="qty-btn" onclick="qty(-1)">−</button>
+          <input id="qty" class="qty-input" value="1">
+          <button type="button" class="qty-btn" onclick="qty(1)">+</button>
+        </div>
+
+        <button type="button" class="add-to-cart" onclick="addToCart()">Add to cart</button>
+        <button type="button" class="buy-now" onclick="buyNow()">Buy it now</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="product-description">
+    {% assign styled_desc = product.description
+      | replace: 'Product information:', '<h2 class="auto-title">Product information</h2>'
+      | replace: 'Note:', '<h2 class="auto-title">Note</h2>'
+      | replace: 'Packing list:', '<h2 class="auto-title">Packing list</h2>'
+      | replace: 'Product Image:', '<h2 class="auto-title">Product Image</h2>'
+    %}
+    <div class="rte">{{ styled_desc }}</div>
+  </div>
+</div>
+<script>
+  /* =====================
+      VARIANTS
+  ===================== */
+  const variants = {{ product.variants | json }};
+  let selectedOptions = [];
+
+  document.querySelectorAll('.variant-group').forEach((group, i) => {
+    const buttons = group.querySelectorAll('.variant-btn');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedOptions[i] = btn.dataset.value;
+        updateVariant();
+      });
+    });
+
+    const first = group.querySelector('.variant-btn');
+    if (first) {
+      first.classList.add('active');
+      selectedOptions[i] = first.dataset.value;
+    }
+  });
+
+  function updateVariant() {
+    const match = variants.find(v =>
+      v.options.every((opt, i) => opt === selectedOptions[i])
+    );
+    if (!match) return;
+
+    document.getElementById('variantId').value = match.id;
+    document.getElementById('price').innerText =
+      (match.price / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: '{{ shop.currency }}'
+      });
+
+    if (match.featured_image?.src) {
+      document.getElementById('mainImg').src = match.featured_image.src;
+    }
+  }
+
+  updateVariant();
+
+  /* =====================
+      QUANTITY
+  ===================== */
+  function qty(n) {
+    const q = document.getElementById('qty');
+    let v = parseInt(q.value) + n;
+    if (v < 1) v = 1;
+    q.value = v;
+    document.getElementById('qtyHidden').value = v;
+  }
+
+  /* =====================
+      TOP GALLERY SLIDER
+  ===================== */
+  document.addEventListener("DOMContentLoaded", () => {
+    const mainImg = document.getElementById('mainImg');
+    const thumbs = Array.from(document.querySelectorAll('.thumbnail'));
+    const left = document.querySelector('.gallery-arrow.left');
+    const right = document.querySelector('.gallery-arrow.right');
+    if (!mainImg || thumbs.length < 2) return;
+
+    let active = 0, start = 0;
+    const visible = 7;
+
+    function show(i) {
+      mainImg.style.opacity = 0;
+      setTimeout(() => {
+        mainImg.src = thumbs[i].dataset.image;
+        mainImg.style.opacity = 1;
+      }, 200);
+    }
+
+    function render() {
+      thumbs.forEach((t, i) => {
+        t.style.display = (i >= start && i < start + visible) ? 'block' : 'none';
+        t.classList.toggle('active', i === active);
+      });
+    }
+
+    function next() {
+      if (active < thumbs.length - 1) {
+        active++;
+        if (active >= start + visible) start++;
+        show(active); render();
+      }
+    }
+
+    function prev() {
+      if (active > 0) {
+        active--;
+        if (active < start) start--;
+        show(active); render();
+      }
+    }
+
+    thumbs.forEach((t, i) =>
+      t.addEventListener('click', () => {
+        active = i;
+        show(active); render();
+      })
+    );
+
+    left?.addEventListener('click', prev);
+    right?.addEventListener('click', next);
+
+    let x = 0;
+    mainImg.addEventListener('touchstart', e => x = e.touches[0].clientX);
+    mainImg.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX;
+      if (x - dx > 50) next();
+      if (dx - x > 50) prev();
+    });
+
+    render();
+  });
+
+  /* =====================
+      DESCRIPTION SLIDER
+  ===================== */
+  document.addEventListener("DOMContentLoaded", () => {
+    const desc = document.querySelector('.product-description');
+    if (!desc) return;
+
+    const imgs = Array.from(desc.querySelectorAll('img'));
+    if (imgs.length < 2) return;
+
+    imgs.forEach(img => img.remove());
+
+    const slider = document.createElement('div');
+    slider.className = 'desc-slider';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'desc-main-wrapper';
+
+    const main = document.createElement('img');
+    main.className = 'desc-main-img';
+    main.src = imgs[0].src;
+
+    const left = document.createElement('div');
+    left.className = 'desc-arrow left';
+    left.innerHTML = '‹';
+
+    const right = document.createElement('div');
+    right.className = 'desc-arrow right';
+    right.innerHTML = '›';
+
+    wrap.append(main, left, right);
+
+    const thumbs = document.createElement('div');
+    thumbs.className = 'desc-thumbs';
+
+    let active = 0, start = 0;
+    const visible = 4;
+
+    function animate(i) {
+      main.classList.add('fade-out');
+      setTimeout(() => {
+        main.src = imgs[i].src;
+        main.classList.remove('fade-out');
+        main.classList.add('fade-in');
+        setTimeout(() => main.classList.remove('fade-in'), 300);
+      }, 180);
+    }
+
+    function render() {
+      thumbs.innerHTML = '';
+      imgs.slice(start, start + visible).forEach((img, i) => {
+        const idx = start + i;
+        const t = document.createElement('img');
+        t.src = img.src;
+        t.className = 'desc-thumb' + (idx === active ? ' active' : '');
+        t.onclick = () => { active = idx; animate(active); render(); };
+        thumbs.appendChild(t);
+      });
+    }
+
+    function next() {
+      if (active < imgs.length - 1) {
+        active++;
+        if (active >= start + visible) start++;
+        animate(active); render();
+      }
+    }
+
+    function prev() {
+      if (active > 0) {
+        active--;
+        if (active < start) start--;
+        animate(active); render();
+      }
+    }
+
+    right.onclick = next;
+    left.onclick = prev;
+
+    render();
+    slider.append(wrap, thumbs);
+    desc.appendChild(slider);
+  });
+
+  /* =====================
+      SEPET İŞLEMLERİ (ALERT SİZ)
+  ===================== */
+  function addToCart() {
+    const variantId = document.getElementById('variantId').value;
+    const qty = document.getElementById('qtyHidden').value;
+    const btn = document.querySelector('.add-to-cart');
+
+    const originalText = btn.innerText;
+    btn.innerText = "Eklendi..."; // Alert yerine buton yazısını değiştiriyoruz
+    btn.style.opacity = "0.7";
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: [{ id: variantId, quantity: qty }] })
+    })
+    .then(() => {
+      // Sepet eklendiğinde sepet çekmecesini açmak istersen buraya kod ekleyebiliriz
+      // Şimdilik sadece butonu eski haline getiriyoruz
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.opacity = "1";
+      }, 2000);
+    })
+    .catch(err => console.error("Hata:", err));
+  }
+
+  function buyNow() {
+    const variantId = document.getElementById('variantId').value;
+    const qty = document.getElementById('qtyHidden').value;
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: [{ id: variantId, quantity: qty }] })
+    })
+    .then(() => {
+      window.location.href = '/checkout';
+    })
+    .catch(err => {
+        console.error("Hata:", err);
+        window.location.href = '/checkout'; // Hata olsa bile ödemeye zorla
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Modern Product Final",
+  "templates": ["product"],
+  "settings": [],
+  "presets": [{ "name": "Modern Orange Product Final" }]
+}
+{% endschema %}

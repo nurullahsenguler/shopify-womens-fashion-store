@@ -1,0 +1,215 @@
+<style>
+  /* =========================
+     WHY THIS BRAND
+     TRUST / PREMIUM
+     ========================= */
+
+  .why-brand {
+    background: #f36a2d;
+    padding: 140px 32px;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .wb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .wb-header {
+    text-align: center;
+    margin-bottom: 90px;
+  }
+
+  .wb-header h2 {
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: -0.6px;
+    margin-bottom: 16px;
+  }
+
+  .wb-header p {
+    font-size: 17px;
+    opacity: 0.9;
+  }
+
+  /* GRID */
+  .wb-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+
+  /* CARD */
+  .wb-card {
+    background: rgba(255,255,255,0.12);
+    border-radius: 28px;
+    padding: 48px 36px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+    transform: translateY(60px);
+    opacity: 0;
+    transition: all 0.8s ease;
+  }
+
+  /* ICON */
+  .wb-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 26px;
+  }
+
+  .wb-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: #fff;
+  }
+
+  /* TEXT */
+  .wb-card h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .wb-card p {
+    font-size: 15px;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  /* REVEAL */
+  .wb-card.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* =========================
+     WHY THIS BRAND RESPONSIVE
+     ========================= */
+  @media screen and (max-width: 990px) {
+    .why-brand {
+      padding: 80px 24px; /* Mobilde dikey alanı daralttık */
+    }
+
+    .wb-header {
+      margin-bottom: 50px;
+    }
+
+    .wb-header h2 {
+      font-size: 30px; /* Mobilde başlık boyutu dengelendi */
+    }
+
+    .wb-grid {
+      /* Mobilde 3 kolon yerine tek kolon yapıyoruz, ferah ferah dursun */
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .wb-card {
+      padding: 40px 24px; /* Mobilde kart içi boşluklar optimize edildi */
+      transform: translateY(40px); /* Mobilde giriş mesafesini biraz kısalttık */
+    }
+
+    .wb-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 20px;
+    }
+
+    .wb-card h3 {
+      font-size: 18px;
+    }
+
+    .wb-card p {
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .why-brand {
+      padding: 60px 20px;
+    }
+
+    /* Mobilde kartların birbirine çok yakın görünmemesi için dış boşluk */
+    .wb-card {
+      margin-bottom: 10px;
+    }
+  }
+</style>
+
+<section class="why-brand" id="whyBrand">
+  <div class="wb-container">
+    <div class="wb-header">
+      <h2>Designed for Modern Women</h2>
+      <p>Premium quality, timeless design, and effortless elegance</p>
+    </div>
+
+    <div class="wb-grid">
+      <!-- CARD 1 -->
+      <div class="wb-card">
+        <div class="wb-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 12l4 4L20 4" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <h3>Premium Quality</h3>
+        <p>Carefully selected fabrics designed to feel luxurious and last longer.</p>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="wb-card">
+        <div class="wb-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke-width="1.8"/>
+            <path d="M12 7v5l3 2" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <h3>Timeless Design</h3>
+        <p>Minimal, modern pieces that stay stylish beyond seasonal trends.</p>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="wb-card">
+        <div class="wb-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 2l7 4v6c0 5-7 10-7 10S5 17 5 12V6l7-4z" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <h3>Trusted Experience</h3>
+        <p>Fast shipping, easy returns, and customer-first shopping experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.wb-card');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Why Brand",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Why Brand Section"
+    }
+  ]
+}
+{% endschema %}

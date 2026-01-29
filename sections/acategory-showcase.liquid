@@ -1,0 +1,253 @@
+<style>
+  /* =========================
+     CATEGORY SHOWCASE
+     WOMEN FASHION
+     ========================= */
+
+  .category-showcase {
+    padding: 140px 32px;
+    background: #fff6ee;
+  }
+
+  .cs-container {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .cs-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .cs-header h2 {
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: -0.6px;
+    margin-bottom: 14px;
+  }
+
+  .cs-header p {
+    font-size: 16px;
+    opacity: 0.7;
+  }
+
+  /* GRID */
+  .cs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  /* ITEM */
+  .cs-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    transform: translateY(40px);
+    opacity: 0;
+    transition: all 0.8s ease;
+  }
+
+  .cs-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+
+  /* OVERLAY */
+  .cs-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.45),
+      rgba(0,0,0,0.05)
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 36px;
+  }
+
+  .cs-content {
+    color: #fff;
+  }
+
+  .cs-content h3 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .cs-content span {
+    font-size: 14px;
+    opacity: 0.85;
+    border-bottom: 1px solid rgba(255,255,255,0.6);
+    padding-bottom: 2px;
+  }
+
+  /* HOVER */
+  .cs-item:hover img {
+    transform: scale(1.1);
+  }
+
+  /* SCROLL ANIMATION */
+  .category-showcase.is-visible .cs-item {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .category-showcase.is-visible .cs-item:nth-child(2) {
+    transition-delay: 0.15s;
+  }
+
+  .category-showcase.is-visible .cs-item:nth-child(3) {
+    transition-delay: 0.3s;
+  }
+
+  /* =========================
+     CATEGORY SHOWCASE RESPONSIVE
+     ========================= */
+  @media screen and (max-width: 990px) {
+    .category-showcase {
+      padding: 80px 24px; /* Mobilde dikey boşluğu azalttık */
+    }
+
+    .cs-header {
+      margin-bottom: 50px;
+    }
+
+    .cs-header h2 {
+      font-size: 32px; /* Başlığı mobilde dengeledik */
+    }
+
+    .cs-grid {
+      /* Mobilde 3 kolon yerine 1 tam kolon yapıyoruz
+         ki resimler görkemli dursun */
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .cs-item {
+      /* Mobilde dikey uzunluğu sabitlemek görsellerin patlamasını önler */
+      height: 400px;
+      border-radius: 24px;
+    }
+
+    .cs-overlay {
+      padding: 24px; /* Mobilde iç boşluğu biraz daralttık */
+    }
+
+    .cs-content h3 {
+      font-size: 20px;
+    }
+
+    /* Mobilde scroll animasyon delay sürelerini kısaltalım
+       ki kullanıcı kaydırdığında çok beklemesin */
+    .category-showcase.is-visible .cs-item:nth-child(n) {
+      transition-delay: 0.1s;
+    }
+  }
+
+  /* Daha küçük telefonlar için ekstra dokunuş */
+  @media screen and (max-width: 480px) {
+    .cs-item {
+      height: 350px; /* Küçük telefonlarda boyu biraz daha kısalttık */
+    }
+  }
+</style>
+
+<section class="category-showcase" id="categoryShowcase">
+  <div class="cs-container">
+    <div class="cs-header">
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subheading }}</p>
+    </div>
+
+    <div class="cs-grid">
+      {% for block in section.blocks %}
+        <a href="{{ block.settings.collection.url }}" class="cs-item">
+          <img
+            src="{{ block.settings.image | image_url: width: 900 }}"
+            alt="{{ block.settings.title }}"
+          >
+          <div class="cs-overlay">
+            <div class="cs-content">
+              <h3>{{ block.settings.title }}</h3>
+              <span>Shop Now</span>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.getElementById('categoryShowcase');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            section.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(section);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Category Showcase",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Find your perfect style"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Showcase",
+      "blocks": [{ "type": "category" }, { "type": "category" }, { "type": "category" }]
+    }
+  ]
+}
+{% endschema %}

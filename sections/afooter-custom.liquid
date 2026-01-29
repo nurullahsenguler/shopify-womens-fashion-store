@@ -1,0 +1,191 @@
+<style>
+    /* =========================
+       FOOTER BASE
+       ========================= */
+    .footer {
+      padding: 100px 32px 40px; /* Padding biraz dengelendi */
+      background: #111;
+      color: #fff;
+      overflow: hidden; /* Taşmaları garantiye alalım */
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* TOP - DESKTOP */
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1.2fr; /* Newsletter'a biraz daha alan verdik */
+      gap: 60px;
+      margin-bottom: 80px;
+    }
+
+    /* BRAND */
+    .footer-brand h3 { font-size: 20px; font-weight: 600; margin-bottom: 14px; }
+    .footer-brand p { font-size: 14px; opacity: 0.7; line-height: 1.6; }
+
+    /* LINKS */
+    .footer-column h4 { font-size: 14px; font-weight: 500; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .footer-column ul { list-style: none; padding: 0; margin: 0; }
+    .footer-column li { margin-bottom: 12px; }
+    .footer-column a { color: #fff; font-size: 14px; opacity: 0.7; text-decoration: none; transition: 0.3s; }
+    .footer-column a:hover { opacity: 1; padding-left: 5px; } /* Hafif bir hover hareketi */
+
+    /* NEWSLETTER */
+    .footer-newsletter h4 { font-size: 14px; font-weight: 500; margin-bottom: 20px; }
+    .footer-newsletter p { font-size: 14px; opacity: 0.7; margin-bottom: 18px; }
+    .footer-newsletter input {
+      width: 100%; padding: 14px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05); color: #fff; outline: none; margin-bottom: 12px; font-size: 14px;
+    }
+    .footer-newsletter button {
+      width: 100%; padding: 14px; border-radius: 30px; border: none;
+      background: #fff; color: #000; font-weight: 600; cursor: pointer; transition: 0.3s;
+    }
+    .footer-newsletter button:hover { background: #e0e0e0; transform: translateY(-2px); }
+
+    /* BOTTOM */
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+
+  /* =========================
+       FOOTER RESPONSIVE (MOBİL GÜNCEL)
+       ========================= */
+    @media screen and (max-width: 990px) {
+      .footer {
+        padding: 60px 24px 40px;
+      }
+
+      .footer-top {
+        /* Yan yana 2 kolon yerine HER ŞEYİ alt alta tek kolon yaptık */
+        grid-template-columns: 1fr;
+        gap: 50px; /* Bölümler arası boşluk */
+        text-align: center; /* Mobilde her şeyi ortalıyoruz, çok daha şık durur */
+        margin-bottom: 60px;
+      }
+
+      .footer-brand, .footer-column, .footer-newsletter {
+        grid-column: span 1; /* Hepsi kendi satırına kurulsun */
+      }
+
+      /* Newsletter formunun mobilde çok genişleyip çirkinleşmesini önleyelim */
+      .footer-newsletter form {
+        max-width: 450px;
+        margin: 0 auto;
+      }
+
+      /* Linklerin mobilde daha kolay tıklanması için biraz padding ekledik */
+      .footer-column li {
+        margin-bottom: 16px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+        padding-top: 30px;
+      }
+    }
+    @media screen and (max-width: 480px) {
+      .footer-top {
+        grid-template-columns: 1fr; /* Çok küçük ekranlarda her şey alt alta */
+      }
+      .footer-brand, .footer-newsletter {
+        grid-column: span 1;
+      }
+      .footer-column { text-align: center; } /* Küçük mobilde merkezleyelim */
+    }
+</style>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h3>{{ section.settings.brand_name }}</h3>
+        <p>{{ section.settings.brand_description }}</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Shop</h4>
+        <ul>
+          {% for link in linklists[section.settings.menu_1].links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Information</h4>
+        <ul>
+          {% for link in linklists[section.settings.menu_2].links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="footer-newsletter">
+        <h4>Join our newsletter</h4>
+        <p>Get exclusive offers and early access to new collections.</p>
+        <form>
+          <input type="email" placeholder="Your email address" required>
+          <button type="submit">Subscribe Now</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span
+        >© {{ 'now' | date: '%Y' }}
+        {{ section.settings.brand_name }}.</span
+      >
+      <span>All rights reserved. Designed with Elegance.</span>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer Custom",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand name",
+      "default": "Women's Wear"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_description",
+      "label": "Brand description",
+      "default": "Designed for confident women. Timeless silhouettes, modern elegance."
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Shop menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Information menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer Custom"
+    }
+  ]
+}
+{% endschema %}

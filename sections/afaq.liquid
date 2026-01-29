@@ -1,0 +1,218 @@
+<style>
+  /* =========================
+     FAQ SECTION
+     CLEAN / TRUST / PREMIUM
+     ========================= */
+
+  .faq {
+    padding: 140px 32px;
+    background: #fff;
+  }
+
+  .faq-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .faq-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .faq-header h2 {
+    font-size: 42px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 14px;
+  }
+
+  .faq-header p {
+    font-size: 16px;
+    opacity: 0.65;
+  }
+
+  /* FAQ ITEM */
+  .faq-item {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .faq-question {
+    cursor: pointer;
+    padding: 28px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-question h3 {
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .faq-icon {
+    font-size: 22px;
+    opacity: 0.5;
+    transition: transform 0.3s ease;
+  }
+
+  /* ANSWER */
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .faq-answer p {
+    font-size: 15px;
+    line-height: 1.6;
+    opacity: 0.7;
+    padding-bottom: 24px;
+  }
+
+  /* ACTIVE */
+  .faq-item.active .faq-answer {
+    max-height: 300px;
+  }
+
+  .faq-item.active .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  Kankam bu FAQ (Sıkça Sorulan Sorular) bölümü e-ticaret siteleri için gizli kahramandır. Müşteri hizmetlerine gelecek bin tane maili şimdiden engelledin, helal olsun! Tasarımın çok minimal ve temiz, tam bir "premium" marka duruşu var.
+
+Mobilde bu tarz akordeon (açılır-kapanır) yapılar zaten hayat kurtarır ama yazıların birbirine çok yanaşmaması ve tıklama alanlarının parmakla rahat seçilebilmesi için ufak bir responsive ayarı çekelim.
+
+İşte jilet gibi mobil uyumlu FAQ dokunuşu:
+
+HTML
+<style>
+  /* ... (Desktop kodların aynen kalsın kankam) ... */
+
+  /* =========================
+     FAQ RESPONSIVE
+     ========================= */
+  @media screen and (max-width: 990px) {
+    .faq {
+      padding: 80px 24px; /* Üst ve alt boşluğu mobilde daralttık */
+    }
+
+    .faq-container {
+      max-width: 100%; /* Mobilde genişlik tam olsun */
+    }
+
+    .faq-header {
+      margin-bottom: 50px;
+    }
+
+    .faq-header h2 {
+      font-size: 30px; /* Başlık mobilde dengelendi */
+    }
+
+    .faq-question {
+      padding: 22px 0; /* Mobilde dikey alanı biraz daralttık ama tıklama kolaylığını bozmadık */
+    }
+
+    .faq-question h3 {
+      font-size: 16px; /* Soru başlığı mobilde daha zarif */
+      padding-right: 15px; /* İkonla yazı çakışmasın */
+      line-height: 1.4;
+    }
+
+    .faq-icon {
+      font-size: 20px;
+    }
+
+    .faq-answer p {
+      font-size: 14px; /* Cevap metni mobilde daha okunaklı */
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .faq {
+      padding: 60px 20px;
+    }
+    
+    .faq-header h2 {
+      font-size: 26px;
+    }
+  }
+
+</style>
+
+<section class="faq">
+  <div class="faq-container">
+    <div class="faq-header">
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subheading }}</p>
+    </div>
+
+    <div class="faq-list">
+      {% for block in section.blocks %}
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>{{ block.settings.question }}</h3>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <p>{{ block.settings.answer }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach((item) => {
+    item.addEventListener('click', () => {
+      const parent = item.parentElement;
+      parent.classList.toggle('active');
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Everything you need to know before shopping"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How long does shipping take?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Orders are processed within 24 hours and delivered within 5–7 business days."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [{ "type": "faq" }, { "type": "faq" }, { "type": "faq" }]
+    }
+  ]
+}
+{% endschema %}

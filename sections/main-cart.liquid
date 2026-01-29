@@ -1,0 +1,277 @@
+<cart-items-component
+  class="cart-items-component"
+  data-section-id="{{ section.id }}"
+>
+  <div class="modern-orange-cart-experience">
+    <div class="cart-page{% if cart.empty? %} cart-page--empty-state{% endif %}">
+      <div class="cart-page__header">
+        <h1 class="cart-title">
+          {%- if cart.empty? -%}
+            Sepetin Şu An Boş 🍊
+          {%- else -%}
+            Senin Seçimlerin
+          {%- endif -%}
+        </h1>
+      </div>
+
+      <div class="cart-content-grid">
+        <div class="cart-page__items">
+          <div class="items-inner-wrapper">
+            {%- content_for 'block', id: 'cart-page-items', type: '_cart-products' %}
+
+            {%- if cart.empty? -%}
+              <div class="empty-cart-message">
+                <p>Görünüşe göre henüz bir şey eklememişsin.</p>
+                <a href="/collections/all" class="continue-shopping">Alışverişe Başla</a>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- unless cart.empty? -%}
+          <div class="cart-page__summary">
+            <div class="summary-glass-card">
+              <h2 class="summary-title">Sipariş Özeti</h2>
+              <div class="summary-content">
+                {%- content_for 'block', id: 'cart-page-summary', type: '_cart-summary' -%}
+              </div>
+
+              <div class="cart-security-badges">
+                <span>🔒 Güvenli Ödeme</span>
+                <span>💳 Taksit İmkanı</span>
+              </div>
+            </div>
+          </div>
+        {%- endunless -%}
+      </div>
+
+      <div class="cart-page__more-blocks">
+        {%- content_for 'blocks' -%}
+      </div>
+    </div>
+  </div>
+</cart-items-component>
+
+<style>
+      /* 1. GENEL YAPI */
+      .modern-orange-cart-experience {
+        background: radial-gradient(circle at top right, #ffb830, #ffa800);
+        padding: 140px 0 80px 0;
+        min-height: 100vh;
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+      }
+
+      .cart-page {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* 2. BAŞLIK */
+      .cart-page__header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .cart-title {
+        font-size: clamp(32px, 6vw, 52px);
+        font-weight: 900;
+        color: #ffffff;
+        text-transform: uppercase;
+        letter-spacing: -2px;
+        margin: 0;
+        text-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+
+      /* 3. GRID YAPISI */
+      .cart-content-grid {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 40px;
+        align-items: start;
+      }
+
+      /* 4. ÜRÜN ALANI (WHITE CARD) */
+      .items-inner-wrapper {
+        background: #ffffff;
+        border-radius: 40px;
+        padding: 40px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+        overflow: hidden;
+      }
+
+      .items-inner-wrapper table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+/* 5. ÖZET KARTI - KESİN ORTALAMA DÜZENİ */
+      .summary-glass-card {
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 256, 0.4);
+        border-radius: 40px;
+        padding: 40px;
+        position: sticky;
+        top: 120px;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+        
+        /* Kartın ana hizalaması */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; 
+        text-align: center !important;
+      }
+
+      .summary-content {
+        width: 100%;
+        display: block !important; /* Flex bazen alt elemanları sağa iter, block yapıp içeriği ortalıyoruz */
+      }
+
+      /* Özet içindeki her bir alt satırı (fiyat, vergi, indirim) yakala ve ortala */
+      .summary-content div, 
+      .summary-content p, 
+      .summary-content span,
+      .summary-content .cart__blocks > * {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+      /* Fiyat ve metin yan yanaysa onları da alt alta veya merkezde topla */
+      .summary-content .totals {
+        justify-content: center !important;
+        gap: 10px;
+      }
+
+      /* Butonların kapsayıcısını ortala */
+      .summary-content .cart__ctas {
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+      }
+
+      /* 6. BUTONLAR - TAM MERKEZ */
+      .summary-glass-card button,
+      .summary-glass-card .cart__checkout-button,
+      .summary-glass-card [name="checkout"] {
+        margin: 20px auto !important; /* Üstten boşluk bırak ve yatayda ortala */
+        display: block !important;
+        width: 100% !important;
+        max-width: 300px !important;
+      }
+      .summary-glass-card button:hover {
+        background: #333 !important;
+        transform: translateY(-3px);
+      }
+
+      /* 7. GÜVENLİK ROZETLERİ */
+      .cart-security-badges {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 30px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #666;
+      }
+
+      /* --- RESPONSIVE TASARIM --- */
+      @media screen and (max-width: 1100px) {
+        .cart-content-grid {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+        .summary-glass-card {
+          position: static;
+          margin-top: 0;
+        }
+        .modern-orange-cart-experience {
+          padding-top: 100px;
+        }
+      }
+
+     @media screen and (max-width: 768px) {
+        .modern-orange-cart-experience { padding-top: 100px; }
+        .cart-page { padding: 0 15px; }
+        .items-inner-wrapper { padding: 15px; border-radius: 25px; }
+
+        .items-inner-wrapper table,
+        .items-inner-wrapper tbody,
+        .items-inner-wrapper tr {
+          display: block;
+          width: 100%;
+        }
+
+        .items-inner-wrapper thead { display: none; }
+
+        .items-inner-wrapper tr {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 15px;
+          padding: 20px 0;
+          border-bottom: 1px solid #f0f0f0;
+          text-align: left;
+        }
+
+        .items-inner-wrapper td:first-child {
+          width: 80px;
+          padding: 0;
+        }
+
+        .items-inner-wrapper td img {
+          width: 80px !important;
+          height: 80px !important;
+          object-fit: cover;
+          border-radius: 12px;
+        }
+
+        .items-inner-wrapper td {
+          display: inline-block;
+          padding: 0;
+          width: auto;
+          text-align: left;
+        }
+
+        .items-inner-wrapper td[data-label="Fiyat"],
+        .items-inner-wrapper td[data-label="Adet"],
+        .items-inner-wrapper td[data-label="Toplam"] {
+          width: 100%;
+          margin-top: 5px;
+          font-size: 14px;
+        }
+
+        .summary-glass-card {
+          padding: 25px 20px;
+          margin-top: 20px;
+        }
+
+        .summary-glass-card button {
+          width: 100% !important;
+          max-width: none;
+        }
+      }
+</style>
+
+{% schema %}
+{
+  "name": "Modern Orange Cart",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [{ "type": "@theme" }]
+}
+{% endschema %}

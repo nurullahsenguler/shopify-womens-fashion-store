@@ -1,0 +1,117 @@
+<style>
+  /* =========================
+     TRUST BAR (MARQUEE GÜNCEL)
+     ========================= */
+  .trust-bar {
+    background: #000;
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    /* Hero'dan sonra çok bitişik olmasın diye hafif margin */
+    margin-top: 0;
+  }
+
+  .trust-track {
+    display: flex;
+    width: max-content;
+    /* Animasyon hızı 28s yerine 35s yaparak daha 'premium' bir sakinlik kattık */
+    animation: trust-marquee 35s linear infinite;
+  }
+
+  /* Mobilde animasyonun akıcılığını koru */
+  @keyframes trust-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 40px; /* Padding biraz daraltıldı daha zarif durması için */
+    font-size: 13px; /* 14px'den 13px'e çektik, daha lüks durur */
+    letter-spacing: 0.05em;
+    color: #fff;
+    white-space: nowrap;
+    text-transform: uppercase; /* Tümünü büyük harf yaparak Header uyumu sağladık */
+  }
+
+  .trust-icon {
+    width: 16px;
+    height: 16px;
+    stroke: rgba(255,255,255,0.8);
+    stroke-width: 1.5px;
+  }
+
+  .trust-divider {
+    width: 1px;
+    height: 14px; /* Divider boyu sabitlendi */
+    background: rgba(255,255,255,0.2);
+    align-self: center;
+  }
+
+  /* =========================
+     TRUST BAR RESPONSIVE
+     ========================= */
+  @media screen and (max-width: 768px) {
+    .trust-item {
+      padding: 15px 30px; /* Mobilde boşlukları azıcık kıstık */
+      font-size: 11px; /* Mobilde minik ve şık yazı */
+    }
+
+    .trust-track {
+      animation-duration: 25s; /* Ekran dar olduğu için hızı biraz arttırdık ki akış hissedilsin */
+    }
+  }
+</style>
+
+<section class="trust-bar">
+  <div class="trust-track">
+    {% comment %} Döngüyü 3'e çıkardım ki çok geniş ekranlarda boşluk kalmasın {% endcomment %}
+    {% for i in (1..3) %}
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 12h18M14 6l7 6-7 6"/>
+        </svg>
+        Free Worldwide Shipping
+      </div>
+      <div class="trust-divider"></div>
+
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 8v4l3 3M12 21a9 9 0 100-18 9 9 0 000 18z"/>
+        </svg>
+        14 Days Easy Returns
+      </div>
+      <div class="trust-divider"></div>
+
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        Secure Checkout
+      </div>
+      <div class="trust-divider"></div>
+
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        4.8★ Rated by Customers
+      </div>
+      <div class="trust-divider"></div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Trust Bar"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,207 @@
+<style>
+  /* =========================
+     CUSTOM COLLECTION GRID
+     PREMIUM WOMENSWEAR
+     ========================= */
+
+  .custom-collection {
+    background: rgb(255, 132, 0); /* Senin ikonik turuncun */
+    padding: 120px 32px;
+  }
+
+  .cc-container {
+    max-width: 1400px; /* Koleksiyon sayfasında biraz daha genişlik iyidir */
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .cc-header {
+    text-align: center;
+    margin-bottom: 80px;
+    color: #fff; /* Turuncu üzerinde beyaz başlık daha lüks durur */
+  }
+
+  .cc-header h2 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+
+  .cc-header p {
+    font-size: 16px;
+    opacity: 0.9;
+  }
+
+  /* GRID */
+  .cc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px; /* Boşluğu biraz daha optimize ettim */
+  }
+
+  /* ITEM */
+  .cc-item {
+    text-decoration: none;
+    color: #fff; /* Turuncu zemin için yazıları beyaza çektim */
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  /* IMAGE */
+  .cc-image {
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    background: #f5f5f5; /* Resim yüklenene kadar boşluk çirkin durmasın */
+  }
+
+  .cc-image img {
+    width: 100%;
+    aspect-ratio: 3/4; /* Moda siteleri için altın oran */
+    object-fit: cover;
+    display: block;
+    transition: transform 1.2s cubic-bezier(0.2, 1, 0.2, 1);
+  }
+
+  /* HOVER */
+  .cc-item:hover img {
+    transform: scale(1.08);
+  }
+
+  /* CTA - Desktop'ta Hover'da Çıkar */
+  .cc-cta {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%) translateY(20px);
+    opacity: 0;
+    background: #fff;
+    color: #000;
+    padding: 14px 32px;
+    border-radius: 40px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transition: all 0.4s ease;
+    pointer-events: none; /* Linke tıklamayı engellemesin */
+  }
+
+  .cc-item:hover .cc-cta {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* INFO */
+  .cc-info {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .cc-info h3 {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .cc-info span {
+    font-size: 15px;
+    opacity: 0.9;
+    font-weight: 400;
+  }
+
+  /* =========================
+     COLLECTION GRID RESPONSIVE
+     ========================= */
+  @media screen and (max-width: 990px) {
+    .cc-grid {
+      grid-template-columns: repeat(2, 1fr); /* Tablet ve geniş mobilde 2li */
+      gap: 20px;
+    }
+
+    .custom-collection {
+      padding: 80px 20px;
+    }
+
+    .cc-cta {
+      display: none; /* Mobilde hover butona gerek yok, direkt tıklanır */
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .cc-grid {
+      grid-template-columns: 1fr; /* Küçük telefonlarda tekli tam boy lüks durur */
+      gap: 30px;
+    }
+
+    .cc-header h2 {
+      font-size: 28px;
+    }
+
+    .cc-image {
+      border-radius: 18px;
+    }
+  }
+</style>
+
+<section class="custom-collection">
+  <div class="cc-container">
+    <div class="cc-header">
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subheading }}</p>
+    </div>
+
+    <div class="cc-grid">
+      {% assign collection = collections[section.settings.collection] %}
+      {% for product in collection.products %}
+        <a href="{{ product.url }}" class="cc-item">
+          <div class="cc-image">
+            <img
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.title }}"
+              loading="lazy"
+            >
+            <div class="cc-cta">View product</div>
+          </div>
+
+          <div class="cc-info">
+            <h3>{{ product.title }}</h3>
+            <span>{{ product.price | money }}</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Collection"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Designed for modern women"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Grid"
+    }
+  ]
+}
+{% endschema %}

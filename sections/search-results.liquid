@@ -1,0 +1,190 @@
+<script
+  src="{{ 'results-list.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+<style>
+  /* Kankam Modern Orange Global Style */
+  .modern-orange-results-section {
+    background-color: #ffa800; /* İmza Turuncun */
+    padding: 60px 0;
+    min-height: 100vh;
+  }
+
+  /* 3'lü Grid ve Simetri Ayarı */
+  .modern-orange-results-section .grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* Net 3 Ürün */
+    gap: 30px !important;
+    max-width: 1200px;
+    margin: 0 auto !important;
+    padding: 0 20px;
+    list-style: none;
+  }
+
+  /* Kartların Kendisi */
+  .product-grid__item {
+    background: #ffffff !important;
+    border-radius: 30px !important;
+    padding: 20px;
+    height: 100% !important; /* Aynı Boy Garantisi */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  }
+
+  .product-grid__item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  }
+
+  /* Resimlerin Boyutu ve Oranı (Simetri İçin Şart) */
+  .product-grid__item .card__media,
+  .product-grid__item img {
+    aspect-ratio: 3 / 4 !important; /* Tüm resimler dikey ve aynı boyda */
+    object-fit: cover !important;
+    border-radius: 20px !important;
+  }
+
+  /* Boş Sonuç Ekranı */
+  .search-empty-state {
+    text-align: center;
+    color: white;
+    padding: 100px 20px;
+  }
+
+  /* Filtre Alanı Düzenlemesi */
+  .search-filters-wrapper {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+  }
+
+  /* Mobil Düzenlemeler */
+  @media (max-width: 990px) {
+    .modern-orange-results-section .grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+  @media (max-width: 600px) {
+    .modern-orange-results-section .grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
+
+<div class="modern-orange-results-section">
+  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+  <results-list
+    class="section product-grid-container spacing-style color-{{ section.settings.color_scheme }}"
+    style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
+    section-id="{{ section.id }}"
+    infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
+  >
+    {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
+
+    <div class="collection-wrapper">
+      {% assign products_per_page = 24 %}
+
+      {% if section.settings.enable_infinite_scroll == false %}
+        {% assign products_per_page = section.settings.products_per_page %}
+      {% endif %}
+
+      {% paginate search.results by products_per_page %}
+        {% if search.results_count > 0 %}
+          <div class="search-filters-wrapper">
+            {% content_for 'block',
+              type: 'filters',
+              id: 'filters',
+              results: search,
+              results_size: search.results_count
+            %}
+          </div>
+
+          {% assign products = search.results | where: 'object_type', 'product' %}
+
+          {% capture children %}
+            {% for product in products %}
+              <li
+                id="{{ section.id }}-{{ product.id }}"
+                class="product-grid__item"
+                data-page="{{ paginate.current_page }}"
+                data-product-id="{{ product.id }}"
+                ref="cards[]"
+              >
+                {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
+              </li>
+            {% endfor %}
+          {% endcapture %}
+
+          {% render 'product-grid',
+            section: section,
+            children: children,
+            products: products,
+            paginate: paginate,
+            enable_infinite_scroll: section.settings.enable_infinite_scroll,
+            title: title
+          %}
+
+        {% else %}
+          <div class="search-empty-state">
+            <h2 style="font-size: 48px; font-weight: 900;">OOPS! NO STYLE FOUND 🍊</h2>
+            <p style="font-size: 20px; opacity: 0.8;">Try searching for something else or browse our collections.</p>
+            <a
+              href="/collections/all"
+              style="display:inline-block; margin-top:30px; background: white; color: #ffa800; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: 800;"
+              >BROWSE ALL</a
+            >
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    </div>
+  </results-list>
+</div>
+
+{% schema %}
+{
+  "name": "Modern Search Results",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_infinite_scroll",
+      "label": "Auto-load products",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ]
+}
+{% endschema %}

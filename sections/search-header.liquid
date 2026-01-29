@@ -1,0 +1,100 @@
+<style>
+  .modern-search-header {
+    background: #ffa800; /* Senin imza turuncun */
+    padding: 100px 20px 60px;
+    text-align: center;
+    border-radius: 0 0 60px 60px;
+    margin-bottom: 40px;
+  }
+
+  .search-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .search-wrapper h1 {
+    color: white;
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+  }
+
+  .search-input-container {
+    position: relative;
+    background: white;
+    padding: 10px;
+    border-radius: 30px;
+    display: flex;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  }
+
+  .search-input-container input {
+    width: 100%;
+    border: none;
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 30px;
+    outline: none;
+  }
+
+  .search-btn {
+    background: #ff6a3d;
+    color: white;
+    border: none;
+    padding: 0 40px;
+    border-radius: 25px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .search-btn:hover {
+    background: #111;
+  }
+
+  .result-count-badge {
+    display: inline-block;
+    margin-top: 20px;
+    background: rgba(255,255,255,0.2);
+    padding: 8px 20px;
+    border-radius: 100px;
+    color: white;
+    font-size: 14px;
+    backdrop-filter: blur(5px);
+  }
+</style>
+
+<div class="modern-search-header">
+  <div class="search-wrapper">
+    <h1>
+      {% if search.performed %}
+        {{ 'templates.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+      {% else %}
+        {{ 'general.search.search' | t }}
+      {% endif %}
+    </h1>
+
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search-input-container">
+      <input
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="What are you looking for?"
+        aria-label="Search"
+      >
+      <button type="submit" class="search-btn">SEARCH</button>
+    </form>
+
+    {% if search.performed %}
+      <div class="result-count-badge">Found {{ search.results_count }} items for "{{ search.terms }}"</div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Modern Search Header",
+  "settings": []
+}
+{% endschema %}
